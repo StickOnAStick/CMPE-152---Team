@@ -6,10 +6,12 @@
 
 class Scanner
 {
-    public:
+public:
     Scanner();
     ~Scanner();
-    Token 
-}
+    Token nextToken();
+private:
+    std::ifstream input;
+};
 
 #endif

@@ -3,6 +3,14 @@
 
 #include <string>
 
+enum TokenType
+{
+    PLUS,
+    MINUS,
+    UNK,
+    END_OF_FILE
+};
+
 struct Token
 {
     TokenType type;
