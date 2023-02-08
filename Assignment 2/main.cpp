@@ -14,5 +14,6 @@ int main()
         output << "Token Type: " << token.type << " | " << "Token Value: " << token.value << std::endl; 
         token = scanner.nextToken();
     }
+    output.close();
     return 0;
 }
