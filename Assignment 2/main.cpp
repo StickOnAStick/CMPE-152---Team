@@ -1,15 +1,18 @@
 #include <iostream>
+#include <fstream>
 #include "token.h"
 #include "scanner.h"
 
 int main()
 {
     Scanner scanner;
-    Token token;
+    std::ofstream output("output.txt");
+    Token token = scanner.nextToken();
 
-    while ((token = scanner.nextToken()).type != END_OF_FILE)
+    while (token.type != END_OF_FILE)
     {
-        std::cout << token.type << " " << token.value << std::endl;
+        output << "Token Type: " << token.type << " | " << "Token Value: " << token.value << std::endl; 
+        token = scanner.nextToken();
     }
     return 0;
 }
