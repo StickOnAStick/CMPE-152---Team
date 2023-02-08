@@ -6,6 +6,11 @@
 Scanner::Scanner()
 {
     input.open("testfile.txt");
+    if (!input.is_open())
+    {
+        std::cerr << "Error Opening File." << std::endl;
+        exit(1);
+    }
 }
 Scanner::~Scanner()
 {
@@ -17,6 +22,13 @@ Token Scanner::nextToken()
     char ch;
     Token token;
     input >> ch;
+
+    if (!input.good())
+    {
+        token.type = END_OF_FILE;
+        token.value = '\0';
+        return token;
+    }
 
     switch(ch)
     {
