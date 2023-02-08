@@ -1,4 +1,10 @@
-+ -
++
+-
+: = 
+=
+*
+(*
+*]
 
 Program test(input.output);
 
