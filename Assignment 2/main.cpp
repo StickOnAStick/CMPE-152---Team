@@ -9,7 +9,7 @@ int main()
 
     while ((token = scanner.nextToken()).type != END_OF_FILE)
     {
-        std::out << token.type << " " << token.value << std::endl;
+        std::cout << token.type << " " << token.value << std::endl;
     }
     return 0;
 }
