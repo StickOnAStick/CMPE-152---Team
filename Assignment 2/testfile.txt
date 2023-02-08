@@ -1,0 +1,6 @@
+Program test(input.output);
+
+Begin
+    Writeln('Hello World!');
+    readln_
+End.
