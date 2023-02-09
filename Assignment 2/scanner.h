@@ -1,8 +1,11 @@
 #include <iostream>
 #include <stdio.h>
 #include <unordered_map>
-class Scanner {
+#include <string>
+#ifndef Scanner_H
+#define Scanner_H
 
+class Scanner {
     private:
         std::unordered_map<std::string, std::string> tokenMap = {
             {"and", "AND"},
@@ -89,23 +92,11 @@ class Scanner {
             {"(*", "LCOMMENT"},
             {"*)", "RCOMMENT"}
         };
-    
+        std::string toLower(std::string &input);
     public:
-    
-        std::string nextToken (std::string token) {
-            std::unordered_map<std::string, std::string>::const_iterator mapIter = tokenMap.find(token);
-            std::string value;
-
-            if( mapIter == tokenMap.end())
-                std::cout << "\n\tERROR: Token not found" << std::endl;
-            else {
-                value = mapIter->second;
-                std::cout << mapIter->second << std::endl; 
-            }
-
-            return value;
-        };
-
-
-
+        Scanner();
+        ~Scanner();
+        std::string nextToken (std::string token);
 };
+
+#endif
