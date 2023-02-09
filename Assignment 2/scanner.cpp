@@ -1,5 +1,9 @@
 #include <iostream>
 #include <fstream>
+#include <cctype>
+#include <algorithm>
+#include <string>
+#include <unordered_map>
 #include "scanner.h"
 #include "token.h"
 
@@ -17,169 +21,94 @@ Scanner::~Scanner()
     input.close();
 }
 
-char next_char()
-{
-    char ch;
-    std::cin.get(ch);
-    return ch;
-}
-
 Token Scanner::nextToken()
 {
-    char ch;
-    Token token;
-    input >> ch;
-
-    if (!input.good())
+    std::string str;
+    char c;
+    while (input.get(c)) 
     {
-        token.type = END_OF_FILE;
-        token.value = '\0';
-        return token;
+        if (isspace(c) || c == ';' || c == ',' || c == '(' || c == ')' || c == '[' || c == ']' || c == '{' || c == '}')
+        {
+            if (c == ';')
+            {
+                return {SEMICOLON, ";"};
+            }else if (c == ',')
+            {
+                return {COMMA, ","};
+            }// KEEP ADDING ON
+            else{
+                break;
+            }
+        }
+        str += c;
     }
 
-    switch(ch)
+    std::transform(str.begin(), str.end(), str.begin(), ::tolower);
+
+    static const std::unordered_map<std::string, TokenType> map =
     {
-        case ':':
-            if (next_char() == '=')
-            {
-                token.type = ASSIGN;
-                token.value = ":=";
-            }
-            else
-            {
-                token.type = UNK;
-                token.value = ch;
-            }
-            break;
-        case '=':
-            token.type = EQUAL;
-            token.value = ch;
-            break;
-        case '<':
-            if (next_char() == '>')
-            {
-                token.type = NE;
-                token.value = "<>";
-            }
-            else if (next_char() == '=')
-            {
-                token.type = LTEQ;
-                token.value = "<=";
-            }
-            else
-            {
-                token.type = LT;
-                token.value = ch;
-            }
-            break;
-        case '>':
-            if (next_char() == '=')
-            {
-                token.type = GTEQ;
-                token.value = ">=";
-            }
-            else
-            {
-                token.type = GT;
-                token.value = ch;
-            }
-            break;
-        case '+':
-            if (next_char() == '=')
-            {
-                token.type = PLUSEQUAL;
-                token.value = "+=";
-            }
-            else
-            {
-                token.type = PLUSOP;
-                token.value = ch;
-            }
-            break;
-        case '-':
-            if (next_char() == '=')
-            {
-                token.type = MINUSEQUAL;
-                token.value = "-=";
-            }
-            else
-            {
-                token.type = MINUSOP;
-                token.value = ch;
-            }
-            break;
-        case '*':
-            if (next_char() == '=')
-            {
-                token.type = MULTEQUAL;
-                token.value = "*=";
-            }
-            else
-            {
-                token.type = MULTOP;
-                token.value = ch;
-            }
-            break;
-        case '/':
-            if (next_char() == '=')
-            {
-                token.type = DIVEQUAL;
-                token.value = "/=";
-            }
-            else
-            {
-                token.type = DIVOP;
-                token.value = ch;
-            }
-            break;
-        case '^':
-            token.type = CARAT;
-            token.value = ch;
-            break;
-        case ';':
-            token.type = SEMICOLON;
-            token.value = ch;
-            break;
-        case ',':
-            token.type = COMMA;
-            token.value = ch;
-            break;
-        case '(':
-            token.type = LPAREN;
-            token.value = ch;
-            break;
-        case ')':
-            token.type = RPAREN;
-            token.value = ch;
-            break;
-        case '[':
-            token.type = LBRACKET;
-            token.value = ch;
-            break;
-        case ']':
-            token.type = RBRACKET;
-            token.value = ch;
-            break;
-        case '{':
-            token.type = LBRACE;
-            token.value = ch;
-            break;
-        case '}':
-            token.type = RBRACE;
-            token.value = ch;
-            break;
-        case '(*':
-            token.type = LCOMMENT;
-            token.value = ch;
-            break;
-        case '*)':
-            token.type = RCOMMENT;
-            token.value = ch;
-            break;
-        default:
-            token.type = UNK;
-            token.value = ch;
-            break;
+        {"and", AND},
+        {"array", ARRAY},
+        {"asm", ASM},
+        {"begin", BEGIN},
+        {"break", BREAK},
+        {"case", CASE},
+        {"const", CONST},
+        {"constructor", CONSTRUCTOR},
+        {"continue", CONTINUE},
+        {"destructor", DESTRUCTOR},
+        {"div", DIV},
+        {"do", DO},
+        {"downto", DOWNTO},
+        {"else", ELSE},
+        {"end", END},
+        {"false", FALSE},
+        {"file", FFILE},
+        {"for", FOR},
+        {"function", FUNCTION},
+        {"goto", GOTO},
+        {"if", IF},
+        {"implementation", IMPLEMENTATION},
+        {"in", IN},
+        {"inline", INLINE},
+        {"interface", INTERFACE},
+        {"label", LABEL},
+        {"mod", MOD},
+        {"nil", NIL},
+        {"not", NOT},
+        {"object", OBJECT},
+        {"of", OF},
+        {"on", ON},
+        {"operator", OPERATOR},
+        {"or", OR},
+        {"packed", PACKED},
+        {"procedure", PROCEDURE},
+        {"program", PROGRAM},
+        {"record", RECORD},
+        {"repeat", REPEAT},
+        {"set", SET},
+        {"shl", SHL},
+        {"shr", SHR},
+        {"string", STRING},
+        {"then", THEN},
+        {"to", TO},
+        {"true", TRUE},
+        {"type", TYPE},
+        {"unit", UNIT},
+        {"until", UNTIL},
+        {"uses", USES},
+        {"var", VAR},
+        {"while", WHILE},
+        {"with", WITH},
+        {"xor", XOR}  
+    };
+
+    auto it = map.find(str);
+    if (it != map.end())
+    {
+        return {it->second, str};
+    }else
+    {
+        return {IDENTIFIER, str};
     }
-    return token;
 }
