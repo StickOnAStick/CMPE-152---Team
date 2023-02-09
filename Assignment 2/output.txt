@@ -1,0 +1,5 @@
+Token Type: 56 | Token Value: abcd
+Token Type: 1 | Token Value: array
+Token Type: 0 | Token Value: and
+Token Type: 73 | Token Value: ;
+Token Type: 56 | Token Value: 
