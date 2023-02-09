@@ -20,7 +20,6 @@ enum TokenType {
     ELSE,
     END,
     FALSE,
-    FILE,
     FOR,
     FUNCTION,
     GOTO,
