@@ -32,7 +32,6 @@ Token Scanner::nextToken()
         return Token {END_OF_FILE, ""};
     }
 
-
     while (input.get(c)) 
     {
         if (isspace(c) || c == ';' || c == ',' || c == '(' || c == ')' || c == '[' || c == ']' || c == '{' || c == '}')
