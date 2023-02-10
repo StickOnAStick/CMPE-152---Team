@@ -1,0 +1,7 @@
+abcd    IDENTIFIER
+array    ARRAY
+and    AND
+;    SEMICOLON
+,    COMMA
+for    FOR
+ifdo    IDENTIFIER

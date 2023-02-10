@@ -16,7 +16,7 @@ int main()
 
     while (token.type != END_OF_FILE)
     {
-        output << token.value << "    " << token.type << std::endl; 
+        output << token.value << "    " << tokenLabels[token.type] << std::endl; 
         token = scanner.nextToken();
     }
     output.close();

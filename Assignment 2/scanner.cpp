@@ -27,13 +27,16 @@ Token Scanner::nextToken()
     std::string str;
     char c;
 
-    if (input.eof())
+    if (!input.good())
     {
-        return Token {END_OF_FILE, ""};
+        token.type = END_OF_FILE;
+        token.value = '\0';
+        return token;
     }
 
     while (input.get(c)) 
     {
+        if (c == '\n' || c == '\t') continue;
         if (isspace(c) || c == ';' || c == ',' || c == '(' || c == ')' || c == '[' || c == ']' || c == '{' || c == '}')
         {
             if (c == ';')
@@ -111,11 +114,6 @@ Token Scanner::nextToken()
         {"with", WITH},
         {"xor", XOR}  
     };
-
-    if (input.eof())
-    {
-        return Token {END_OF_FILE, ""};
-    }
 
     auto it = map.find(str);
     if (it != map.end())
