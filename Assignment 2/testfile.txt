@@ -4,3 +4,13 @@ and
 ,
 FOR IF
 DO
+
+type
+    TA = Array[0..9,0..9] of Integer;
+
+program helloWorld(output);
+begin
+    a := 10
+    
+	writeLn('Hello, World!')
+end.
