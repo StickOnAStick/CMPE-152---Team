@@ -161,8 +161,7 @@ Token Scanner::nextToken()
         {"/=", DIVEQUAL},
         {"(*", LCOMMENT},
         {"*)", RCOMMENT}
-        //Need new build to test. Current .exe will not provide new output.txt
-    };
+};
 
     auto it = map.find(str);
     if (it != map.end())
