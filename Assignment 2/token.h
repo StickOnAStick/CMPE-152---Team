@@ -65,6 +65,7 @@ enum TokenType {
     MINUSOP,
     MULTOP,
     DIVOP,
+    COLON,
     ASSIGN,
     EQUAL,
     NE,
@@ -87,6 +88,7 @@ enum TokenType {
     RBRACE,
     LCOMMENT,
     RCOMMENT,
+    STAR,
     UNK,
     END_OF_FILE
 };
@@ -153,6 +155,7 @@ const std::string tokenLabels[] = {
     "MINUSOP",
     "MULTOP",
     "DIVOP",
+    "COLON",
     "ASSIGN",
     "EQUAL",
     "NE",
@@ -175,6 +178,7 @@ const std::string tokenLabels[] = {
     "RBRACE",
     "LCOMMENT",
     "RCOMMENT",
+    "STAR",
     "UNK",
     "END_OF_FILE"
 };

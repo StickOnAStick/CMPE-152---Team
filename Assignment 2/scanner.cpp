@@ -43,37 +43,179 @@ Token Scanner::nextToken()
             {
                 break;
             }
+            else if (c == '+')
+            {
+                char next;
+                input.get(next);
+                if (next == '=')
+                {
+                    return {PLUSEQUAL, "+="};
+                }else
+                {
+                    input.unget();
+                    return {PLUSOP, "+"};
+                }
+                break;
+            }
+            else if (c == '-')
+            {
+                char next;
+                input.get(next);
+                if (next == '=')
+                {
+                    return {MINUSEQUAL, "-="};
+                }else
+                {
+                    input.unget();
+                    return {MINUSOP, "-"};
+                }
+                break;
+            }
+            else if (c == '*')
+            {
+                char next;
+                input.get(next);
+                if (next == '=')
+                {
+                    return {MULTOP, "*="};
+                }else
+                {
+                    input.unget();
+                    return {MULTOP, "*"};
+                }
+                break;
+            }
+            else if (c == '/')
+            {
+                char next;
+                input.get(next);
+                if (next == '=')
+                {
+                    return {DIVEQUAL, "/="};
+                }else
+                {
+                    input.unget();
+                    return {DIVOP, "/"};
+                }
+                break;
+            }
+            else if (c == ':')
+            {
+                char next;
+                input.get(next);
+                if (next == '=')
+                {
+                    return {ASSIGN, ":="};
+                }else
+                {
+                    input.unget();
+                    return {COLON, ":"};
+                }
+                break;
+            }
+            else if (c == '=')
+            {
+                return {EQUAL, "="};
+                break;
+            }
+            else if (c == '<')
+            {
+                char next;
+                input.get(next);
+                if (next == '>')
+                {
+                    return {NE, "<>"};
+                }else if (next == '=')
+                {
+                    return {LTEQ, "<="};
+                }
+                else
+                {
+                    input.unget();
+                    return {LT, "<"};
+                }
+                break;
+            }
+            else if (c == '>')
+            {
+                char next;
+                input.get(next);
+                if (next == '=')
+                {
+                    return {GTEQ, ">="};
+                }else
+                {
+                    input.unget();
+                    return {GT, ">"};
+                }
+                break;
+            }
+            else if (c == '^')
+            {
+                return {CARAT, "^"};
+                break;
+            }
             else if (c == ';')
             {
                 return {SEMICOLON, ";"};
                 break;
-            }else if (c == ',')
+            }
+            else if (c == ',')
             {
                 return {COMMA, ","};
                 break;
             }
-            else if (c == '('){
-                return {LPAREN, "("};
+            else if (c == '(')
+            {
+                char next;
+                input.get(next);
+                if (next == '*')
+                {
+                    return {LCOMMENT, "(*"};
+                }else
+                {
+                    input.unget();
+                    return {LPAREN, "("};
+                }
                 break;
             }
-            else if (c == ')'){
+            else if (c == ')')
+            {
                 return {RPAREN, ")"};
                 break;
             }
-            else if (c == '['){
-                return {LBRACE, "["};
+            else if (c == '[')
+            {
+                return {LBRACKET, "["};
                 break;
             }
-            else if (c == ']'){
-                return {RBRACE, "]"};
+            else if (c == ']')
+            {
+                return {RBRACKET, "]"};
                 break;
             }
-            else if (c == '{') {
-                return {LBRACE, "{"};
+            else if (c == '{')
+            {
+                return {RBRACE, "{"};
                 break;
             }
-            else if (c == '}'){
-                return {RBRACE, "}"};
+            else if (c == '}')
+            {
+                return {LBRACE, "}"};
+                break;
+            }
+            else if (c == '*')
+            {
+                char next;
+                input.get(next);
+                if (next == ')')
+                {
+                    return {RCOMMENT, "*)"};
+                }else
+                {
+                    input.unget();
+                    return {STAR, "*"};
+                }
                 break;
             }
             else
@@ -150,7 +292,9 @@ Token Scanner::nextToken()
         {"*=", MULTEQUAL},
         {"/=", DIVEQUAL},
         {"(*", LCOMMENT},
-        {"*)", RCOMMENT}
+        {"*)", RCOMMENT},
+        {":", SEMICOLON},
+        {"*", STAR}
         //Need new build to test. Current .exe will not provide new output.txt
     };
 

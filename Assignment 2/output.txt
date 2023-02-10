@@ -1,0 +1,12 @@
+abcd    IDENTIFIER
++=    PLUSEQUAL
+*=    MULTEQUAL
+test    IDENTIFIER
+:=    IDENTIFIER
+:    SEMICOLON
+happy+=you    IDENTIFIER
+*    STAR
+*    STAR
+    IDENTIFIER
+)    RPAREN
+    IDENTIFIER
