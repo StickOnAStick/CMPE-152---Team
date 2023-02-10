@@ -9,7 +9,7 @@
 
 Scanner::Scanner()
 {
-    input.open("testfile.txt");
+    input.open("test-in.txt");
     if (!input.is_open())
     {
         std::cerr << "Error Opening File." << std::endl;
@@ -297,7 +297,6 @@ Token Scanner::nextToken()
         {":=", ASSIGN},
         {";", SEMICOLON},
         {"*", STAR}
-        //Need new build to test. Current .exe will not provide new output.txt
     };
 
     auto it = map.find(str);

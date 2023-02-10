@@ -6,7 +6,7 @@
 int main()
 {
     Scanner scanner;
-    std::ofstream output("output.txt");
+    std::ofstream output("test-out.txt");
     if (!output) 
     {
         std::cerr << "Could not open output file." << std::endl;
