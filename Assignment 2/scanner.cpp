@@ -141,7 +141,17 @@ Token Scanner::nextToken()
         {"var", VAR},
         {"while", WHILE},
         {"with", WITH},
-        {"xor", XOR}  
+        {"xor", XOR},
+        {"<>", NE},
+        {"<=", LTEQ},
+        {">=", GTEQ},
+        {"+=", PLUSEQUAL},
+        {"-=", MINUSEQUAL},
+        {"*=", MULTEQUAL},
+        {"/=", DIVEQUAL},
+        {"(*", LCOMMENT},
+        {"*)", RCOMMENT}
+        //Need new build to test. Current .exe will not provide new output.txt
     };
 
     auto it = map.find(str);
