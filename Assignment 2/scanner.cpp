@@ -21,6 +21,12 @@ Scanner::~Scanner()
     input.close();
 }
 
+char Scanner::nextChar() {
+        char ch;
+        ch = std::input.get(c);
+        return char;
+};
+
 Token Scanner::nextToken()
 {
     Token token;
@@ -32,7 +38,7 @@ Token Scanner::nextToken()
         token.type = END_OF_FILE;
         token.value = '\0';
         return token;
-    }
+    };
 
     while (input.get(c)) 
     {
@@ -78,6 +84,10 @@ Token Scanner::nextToken()
             }
             else
             {
+                char temp = nextChar();
+                char* pnt = &temp;
+                std::string works = pnt;
+                return {RBRACE, works};
                 break;
             }
         }

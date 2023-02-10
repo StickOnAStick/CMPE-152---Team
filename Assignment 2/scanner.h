@@ -10,6 +10,7 @@ public:
     Scanner();
     ~Scanner();
     Token nextToken();
+    char nextChar();
 private:
     std::ifstream input;
 };
