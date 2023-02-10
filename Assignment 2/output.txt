@@ -1,3 +1,0 @@
-abcd    IDENTIFIER
-and    AND
-orif    IDENTIFIER

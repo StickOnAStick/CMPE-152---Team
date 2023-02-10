@@ -1,7 +1,6 @@
+abc ;
 abcd;
-
-and 
-
-or
-
-if
+;
+,
+test
+if or if do
