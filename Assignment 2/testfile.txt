@@ -1,1 +1,18 @@
+<<<<<<< HEAD
 + - * (* [ ] ) * *)
+=======
++
+-
+: = 
+=
+*
+(*
+*]
+
+Program test(input.output);
+
+Begin
+    Writeln('Hello World!');
+    readln_
+End.
+>>>>>>> dacd529ad3d8f9d1f690abc0e3b30e7b82911f74
