@@ -51,7 +51,31 @@ Token Scanner::nextToken()
             {
                 return {COMMA, ","};
                 break;
-            }// KEEP ADDING ON
+            }
+            else if (c == '('){
+                return {LPAREN, "("};
+                break;
+            }
+            else if (c == ')'){
+                return {RPAREN, ")"};
+                break;
+            }
+            else if (c == '['){
+                return {LBRACE, "["};
+                break;
+            }
+            else if (c == ']'){
+                return {RBRACE, "]"};
+                break;
+            }
+            else if (c == '{') {
+                return {LBRACE, "{"};
+                break;
+            }
+            else if (c == '}'){
+                return {RBRACE, "}"};
+                break;
+            }
             else
             {
                 break;
