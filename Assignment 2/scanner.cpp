@@ -293,7 +293,9 @@ Token Scanner::nextToken()
         {"/=", DIVEQUAL},
         {"(*", LCOMMENT},
         {"*)", RCOMMENT},
-        {":", SEMICOLON},
+        {":", COLON},
+        {":=", ASSIGN},
+        {";", SEMICOLON},
         {"*", STAR}
         //Need new build to test. Current .exe will not provide new output.txt
     };

@@ -1,5 +1,6 @@
-abcd += *= Test 
+abcd; += Test 
 := 
 : 
 happy+=you 
+happy; :happy 
 * *) )
