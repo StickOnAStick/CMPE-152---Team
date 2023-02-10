@@ -1,6 +1,7 @@
-abcd ArrAY and array;
-and
-and
-,
-FOR IF
-DO
+abcd;
+
+and 
+
+or
+
+if

@@ -48,7 +48,8 @@ Token Scanner::nextToken()
                 return {COMMA, ","};
                 break;
             }// KEEP ADDING ON
-            else{
+            else
+            {
                 break;
             }
         }
