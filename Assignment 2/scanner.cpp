@@ -39,7 +39,11 @@ Token Scanner::nextToken()
         if (c == '\n' || c == '\t') continue;
         if (isspace(c) || c == ';' || c == ',' || c == '(' || c == ')' || c == '[' || c == ']' || c == '{' || c == '}')
         {
-            if (c == ';')
+            if (!str.empty())
+            {
+                break;
+            }
+            else if (c == ';')
             {
                 return {SEMICOLON, ";"};
                 break;
