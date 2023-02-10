@@ -37,7 +37,7 @@ Token Scanner::nextToken()
     while (input.get(c)) 
     {
         if (c == '\n' || c == '\t') continue;
-        if (isspace(c) || c == ';' || c == ',' || c == '(' || c == ')' || c == '[' || c == ']' || c == '{' || c == '}')
+        if (isspace(c) || c == ';' || c == ',' || c == '=' || c == '(' || c == ')' || c == '[' || c == ']' || c == '{' || c == '}')
         {
             if (!str.empty())
             {
@@ -296,7 +296,8 @@ Token Scanner::nextToken()
         {":", COLON},
         {":=", ASSIGN},
         {";", SEMICOLON},
-        {"*", STAR}
+        {"*", STAR},
+        {"integer", INTEGER}
     };
 
     auto it = map.find(str);
