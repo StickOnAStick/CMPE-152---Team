@@ -1,12 +1,12 @@
 all: scanner
 
 scanner: main.cpp scanner.cpp
-    g++ -o scanner main.cpp scanner.cpp
-    
+	g++ -o scanner main.cpp scanner.cpp
+
 run: scanner
-    ./scanner
-    
+	./scanner
+
 clean:
-    rm -f scanner
+	rm -f scanner
 
 .PHONY: all clean
