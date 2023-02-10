@@ -4,6 +4,7 @@
 #include <algorithm>
 #include <string>
 #include <unordered_map>
+#include <regex>
 #include "scanner.h"
 #include "token.h"
 
@@ -227,6 +228,19 @@ Token Scanner::nextToken()
     }
 
     std::transform(str.begin(), str.end(), str.begin(), ::tolower);
+    
+    static const std::regex realNumber("[-+]?[0-9]*\\.?[0-9]+([eE][-+]?[0-9]+)?");
+    static const std::regex integer("[-+]?[0-9]+");
+
+    if (std::regex_match(str, realNumber))
+    {
+        return {REAL, str};
+    }
+    else if (std::regex_match(str, integer))
+    {
+        return {INTEGER, str};
+    }
+
 
     static const std::unordered_map<std::string, TokenType> map =
     {
