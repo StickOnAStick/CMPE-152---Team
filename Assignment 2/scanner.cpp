@@ -4,6 +4,7 @@
 #include <algorithm>
 #include <string>
 #include <unordered_map>
+#include <sstream>
 #include "scanner.h"
 #include "token.h"
 
@@ -37,6 +38,7 @@ Token Scanner::nextToken()
     while (input.get(c)) 
     {
         if (c == '\n' || c == '\t') continue;
+        
         if (isspace(c) || c == ';' || c == ',' || c == '=' || c == '(' || c == ')' || c == '[' || c == ']' || c == '{' || c == '}')
         {
             if (!str.empty())
@@ -214,7 +216,7 @@ Token Scanner::nextToken()
                 }else
                 {
                     input.unget();
-                    return {STAR, "*"};
+                    return {MULTOP, "*"};
                 }
                 break;
             }
@@ -224,6 +226,22 @@ Token Scanner::nextToken()
             }
         }
         str += c;
+    }
+
+    std::stringstream ss;
+
+    ss << str;
+    std::string temp;
+    int found;
+    while(!ss.eof()) {
+        ss >> temp;
+
+        if(std::stringstream(temp) >> found) {
+            return {INTEGER, temp};
+        }
+
+        
+        return {IDENTIFIER, temp};
     }
 
     std::transform(str.begin(), str.end(), str.begin(), ::tolower);
@@ -296,11 +314,13 @@ Token Scanner::nextToken()
         {":", COLON},
         {":=", ASSIGN},
         {";", SEMICOLON},
-        {"*", STAR},
+        {"*", MULTOP},
         {"integer", INTEGER}
     };
 
+    std::cout << str;
     auto it = map.find(str);
+    
     if (it != map.end())
     {
         return {it->second, str};
@@ -308,4 +328,8 @@ Token Scanner::nextToken()
     {
         return {IDENTIFIER, str};
     }
+
+    
+    
+
 }
