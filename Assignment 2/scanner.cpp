@@ -25,228 +25,21 @@ Scanner::~Scanner()
 Token Scanner::nextToken()
 {
     Token token;
-    std::string str;
-    char c;
 
-    if (!input.good())
-    {
-        token.type = END_OF_FILE;
-        token.value = '\0';
-        return token;
-    }
-
-    while (input.get(c)) 
-    {
-        if (c == '\n' || c == '\t') continue;
+    std::stringstream iss;
+    iss << input.rdbuf(); //Convert iss to stringstream
+    std::cout << "Iss is: " << iss.eof() << std::endl;
+    if(iss.eof()){
         
-        if (isspace(c) || c == ';' || c == ',' || c == '=' || c == '(' || c == ')' || c == '[' || c == ']' || c == '{' || c == '}')
-        {
-            if (!str.empty())
-            {
-                break;
-            }
-            else if (c == '+')
-            {
-                char next;
-                input.get(next);
-                if (next == '=')
-                {
-                    return {PLUSEQUAL, "+="};
-                }else
-                {
-                    input.unget();
-                    return {PLUSOP, "+"};
-                }
-                break;
-            }
-            else if (c == '-')
-            {
-                char next;
-                input.get(next);
-                if (next == '=')
-                {
-                    return {MINUSEQUAL, "-="};
-                }else
-                {
-                    input.unget();
-                    return {MINUSOP, "-"};
-                }
-                break;
-            }
-            else if (c == '*')
-            {
-                char next;
-                input.get(next);
-                if (next == '=')
-                {
-                    return {MULTOP, "*="};
-                }else
-                {
-                    input.unget();
-                    return {MULTOP, "*"};
-                }
-                break;
-            }
-            else if (c == '/')
-            {
-                char next;
-                input.get(next);
-                if (next == '=')
-                {
-                    return {DIVEQUAL, "/="};
-                }else
-                {
-                    input.unget();
-                    return {DIVOP, "/"};
-                }
-                break;
-            }
-            else if (c == ':')
-            {
-                char next;
-                input.get(next);
-                if (next == '=')
-                {
-                    return {ASSIGN, ":="};
-                }else
-                {
-                    input.unget();
-                    return {COLON, ":"};
-                }
-                break;
-            }
-            else if (c == '=')
-            {
-                return {EQUAL, "="};
-                break;
-            }
-            else if (c == '<')
-            {
-                char next;
-                input.get(next);
-                if (next == '>')
-                {
-                    return {NE, "<>"};
-                }else if (next == '=')
-                {
-                    return {LTEQ, "<="};
-                }
-                else
-                {
-                    input.unget();
-                    return {LT, "<"};
-                }
-                break;
-            }
-            else if (c == '>')
-            {
-                char next;
-                input.get(next);
-                if (next == '=')
-                {
-                    return {GTEQ, ">="};
-                }else
-                {
-                    input.unget();
-                    return {GT, ">"};
-                }
-                break;
-            }
-            else if (c == '^')
-            {
-                return {CARAT, "^"};
-                break;
-            }
-            else if (c == ';')
-            {
-                return {SEMICOLON, ";"};
-                break;
-            }
-            else if (c == ',')
-            {
-                return {COMMA, ","};
-                break;
-            }
-            else if (c == '(')
-            {
-                char next;
-                input.get(next);
-                if (next == '*')
-                {
-                    return {LCOMMENT, "(*"};
-                }else
-                {
-                    input.unget();
-                    return {LPAREN, "("};
-                }
-                break;
-            }
-            else if (c == ')')
-            {
-                return {RPAREN, ")"};
-                break;
-            }
-            else if (c == '[')
-            {
-                return {LBRACKET, "["};
-                break;
-            }
-            else if (c == ']')
-            {
-                return {RBRACKET, "]"};
-                break;
-            }
-            else if (c == '{')
-            {
-                return {RBRACE, "{"};
-                break;
-            }
-            else if (c == '}')
-            {
-                return {LBRACE, "}"};
-                break;
-            }
-            else if (c == '*')
-            {
-                char next;
-                input.get(next);
-                if (next == ')')
-                {
-                    return {RCOMMENT, "*)"};
-                }else
-                {
-                    input.unget();
-                    return {MULTOP, "*"};
-                }
-                break;
-            }
-            else
-            {
-                break;
-            }
-        }
-        str += c;
+        return {END_OF_FILE, "END_OF_FILE"};
     }
 
-    std::stringstream ss;
-
-    ss << str;
-    std::string temp;
-    int found;
-    while(!ss.eof()) {
-        ss >> temp;
-
-        if(std::stringstream(temp) >> found) {
-            return {INTEGER, temp};
-        }
-
-        
-        return {IDENTIFIER, temp};
-    }
-
-    std::transform(str.begin(), str.end(), str.begin(), ::tolower);
-
-    static const std::unordered_map<std::string, TokenType> map =
+    std::string istring = iss.str(); //heinious crimes against humanity  
+    std::transform(istring.begin(), istring.end(), istring.begin(), ::tolower);
+    iss.str(istring); //Get back the input string stream in lowercase. 
+    
+    
+    static const std::unordered_map<std::string, TokenType> map = //Terrible crimes against memory
     {
         {"and", AND},
         {"array", ARRAY},
@@ -302,34 +95,86 @@ Token Scanner::nextToken()
         {"while", WHILE},
         {"with", WITH},
         {"xor", XOR},
+        {"+", PLUSOP},
+        {"-", MINUSOP},
+        {"*", MULTOP},
+        {"/", DIVOP},
+        {":=", ASSIGN},
+        {"=", EQUAL},
         {"<>", NE},
         {"<=", LTEQ},
         {">=", GTEQ},
+        {"<", LT},
+        {">", GT},
         {"+=", PLUSEQUAL},
         {"-=", MINUSEQUAL},
         {"*=", MULTEQUAL},
         {"/=", DIVEQUAL},
-        {"(*", LCOMMENT},
-        {"*)", RCOMMENT},
-        {":", COLON},
-        {":=", ASSIGN},
+        {"^", CARAT},
         {";", SEMICOLON},
-        {"*", MULTOP},
-        {"integer", INTEGER}
+        {",", COMMA},
+        {"(", LPAREN},
+        {")", RPAREN},
+        {"[", LBRACKET},
+        {"]", RBRACKET},
+        {"{", LBRACE},
+        {"}", RBRACE},
+        {"(*", LCOMMENT},
+        {"*)", RCOMMENT}
     };
 
-    std::cout << str;
-    auto it = map.find(str);
-    
-    if (it != map.end())
-    {
-        return {it->second, str};
-    }else
-    {
-        return {IDENTIFIER, str};
-    }
-
-    
-    
+    std::string word;
+    while(iss >> word){
+        std::cout << "Inside while" << std::endl;
+         // Check if word is an integer
+        if (std::isdigit(word[0])) {
+        int num = std::stoi(word);
+        std::cout << "Integer: " << word << std::endl;
+        return {INTEGER, word};
+        }
+        // Check if word is a variable or keyword
+        else if (std::isalpha(word[0])) {
+            // Look for any trailing punctuation characters and separate them into their own tokens
+            std::string::size_type pos = word.find_first_not_of("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ");
+            while (pos != std::string::npos) {
+                std::string punct = word.substr(pos, 1);
+                if (punct == "[" || punct == "]" || punct == ",") {
+                    auto mapVal = map.find(punct);
+                    std::cout << "Punctuation: " << punct << std::endl;
+                    return {mapVal->second, punct};
+                }
+                else {
+                    auto mapVal = map.find(punct);
+                    if(mapVal != map.end()) return {mapVal->second, punct};
+                    else{
+                        mapVal = map.find(word.substr(0, pos));
+                        return {mapVal->second, word};
+                    }
+                    
+                std::cout << "Variable/Keyword: " << word.substr(0, pos) << std::endl;
+                std::cout << "Punctuation: " << punct << std::endl;
+                }
+                word = word.substr(pos + 1);
+                pos = word.find_first_not_of("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ");
+            }
+            std::cout << "Variable/Keyword: " << word << std::endl;
+            
+            }
+            // Check if word is a punctuation mark
+            else if (std::ispunct(word[0])) {
+            std::cout << "Punctuation: " << word << std::endl;
+            auto mapVal = map.find(word);
+            return {mapVal->second, word};
+            }
+            // Otherwise, assume word is a string literal
+            else {
+                std::cout << "String Literal: " << word << std::endl;
+                auto mapVal = map.find(word);
+                if(mapVal != map.end()) return {mapVal->second, word};
+                else if(mapVal == map.end()) return {IDENTIFIER, word};
+            
+            }
+        }
+    return {END_OF_FILE, "END_OF_FILE"};
 
 }
