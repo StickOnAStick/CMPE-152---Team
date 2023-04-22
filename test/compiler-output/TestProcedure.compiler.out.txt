@@ -1,0 +1,2 @@
+Error: Unable to initialize main class TestProcedure
+Caused by: java.lang.VerifyError: (class: TestProcedure, method: main signature: ([Ljava/lang/String;)V) Stack size too large
